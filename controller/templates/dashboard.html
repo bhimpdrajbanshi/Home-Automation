@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>IoT Bulb Control</title>
+</head>
+<body style="text-align:center; font-family:sans-serif;">
+    <h1>💡 IoT Bulb Simulator</h1>
+    <p>Current status: <b>{{ bulb.status|yesno:"ON,OFF" }}</b></p>
+    <form method="POST">
+        {% csrf_token %}
+        <button type="submit">
+            {% if bulb.status %} Turn OFF {% else %} Turn ON {% endif %}
+        </button>
+    </form>
+</body>
+</html>
