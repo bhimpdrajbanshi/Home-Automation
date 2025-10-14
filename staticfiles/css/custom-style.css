@@ -1,0 +1,102 @@
+.custom-switch-container {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: "Segoe UI", sans-serif;
+    }
+
+    /* Switch base */
+    .custom-switch {
+      position: relative;
+      width: 80px;
+      height: 30px;
+      background-color: #ccc;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      overflow: hidden;
+      user-select: none;
+    }
+
+    /* Circle knob */
+    .custom-switch::before {
+      content: "";
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 24px;
+      height: 24px;
+      background-color: white;
+      border-radius: 50%;
+      transition: transform 0.3s ease;
+      z-index: 2;
+    }
+
+    /* Text inside switch */
+    .custom-switch .custom-switch-text-off,
+    .custom-switch .custom-switch-text-on {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 13px;
+      font-weight: bold;
+      color: white;
+      pointer-events: none;
+      user-select: none;
+      transition: opacity 0.3s ease;
+      z-index: 1;
+    }
+
+    /* OFF text position */
+    .custom-switch .custom-switch-text-off {
+      left: 40px;
+      opacity: 1;
+    }
+
+    /* ON text position */
+    .custom-switch .custom-switch-text-on {
+      right: 45px;
+      opacity: 0;
+    }
+
+    /* ON state styles */
+    .custom-switch.on {
+      background-color: #0d6efd; /* Bootstrap primary blue */
+    }
+
+    .custom-switch.on::before {
+      transform: translateX(50px);
+    }
+
+    .custom-switch.on .custom-switch-text-on {
+      opacity: 1;
+    }
+
+    .custom-switch.on .custom-switch-text-off {
+      opacity: 0;
+    }
+
+/* custom-badge */
+.custom-badge{
+  padding: 10px 0px 10px 13px;
+  border-radius: 15px;
+}
+
+.avtar.avtar-s {
+    width: 66px !important;
+    height: 66px !important;
+    font-size: 14px;
+}
+.f-45{
+  font-size: 25px;
+}
+.room-text{
+  position: absolute;
+  bottom: 10px;
+  width: 88%;
+  color: white;
+  background: #000000c2;
+  min-height: 80px;
+  border-radius: 15px;
+  padding: 7px 0px;
+}
