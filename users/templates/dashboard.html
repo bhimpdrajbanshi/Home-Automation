@@ -5,7 +5,7 @@
 <!-- [Head] start -->
 
 <head>
-  <title>Home | Mantis Bootstrap 5 Admin Template</title>
+  <title>Home | Home Automation</title>
   <!-- [Meta] -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
@@ -267,7 +267,7 @@
               <i class="ti ti-wallet"></i>
               <span>Billing</span>
             </a>
-            <a href="#!" class="dropdown-item">
+            <a href="{% url 'logout' %}" class="dropdown-item">
               <i class="ti ti-power"></i>
               <span>Logout</span>
             </a>
@@ -551,7 +551,9 @@
     <i class="ti ti-layout-2 f-45"></i>
   </div>
   <div class="avtar avtar-s rounded-circle text-warning bg-light-warning">
-    <i class="ti ti-logout f-45"></i>
+    <a href="{% url 'logout' %}">
+      <i class="ti ti-logout f-45"></i>
+    </a>
   </div>
 </div>
 

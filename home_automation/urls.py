@@ -1,5 +1,5 @@
 """
-URL configuration for admin_auth project.
+URL configuration for home_automation project.
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/5.2/topics/http/urls/
@@ -20,9 +20,9 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('users/', include('users.urls')),
-    path('ll/', include('controller.urls')),
+    # path('admin/', admin.site.urls),
+    path('', include('users.urls')),
+    path('controller/', include('controller.urls')),
 ]
 
 

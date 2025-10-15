@@ -1,5 +1,10 @@
 from django.shortcuts import render, redirect
 from controller.models import Device
+from django.contrib.auth import get_user_model
+
+from django.contrib.auth import authenticate, logout, login
+User = get_user_model()
+
 
 # Create your views here.
 def dashboard(request):
@@ -7,15 +12,36 @@ def dashboard(request):
     if request.method == "POST":
         bulb.status = not bulb.status
         bulb.save()
-        return redirect('users/dashboard')  
+        return redirect('dashboard')  
     return render(request, 'dashboard.html', {'bulb': bulb})
 
 
 
+# Create your views here.
 
+def login_view(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
 
+        user = authenticate(request, username=username, password=password)
 
+        if user is not None:
+            login(request, user) 
+            return redirect('dashboard')
+        else: 
+            error = 'Invalid username or password.'
+            return render(request, 'login.html', {'error': error})
+        
+    # Redirect already logged-in users
+    if request.user.is_authenticated:
+        return redirect('dashboard')
 
+    return render(request, 'login.html')
+
+def logout_view(request):
+    logout(request)
+    return redirect('login') 
 
 
 from django.http import StreamingHttpResponse

@@ -5,13 +5,13 @@ import json
 from .models import Device
 
 # Web dashboard control
-def dashboard(request):
+def aaa(request):
     bulb, _ = Device.objects.get_or_create(name="Bulb")
     if request.method == "POST":
         bulb.status = not bulb.status
         bulb.save()
         return redirect('dashboard')
-    return render(request, 'dashboard.html', {'bulb': bulb})
+    return render(request, 'controller/dashboard.html', {'bulb': bulb})
 
 # API: Get bulb status (for ESP32 or dashboard)
 def get_status(request):
