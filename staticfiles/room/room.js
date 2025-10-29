@@ -58,3 +58,54 @@
             });
         });
     }
+
+
+function findByIdRoom(room_id) {
+    $.ajax({
+        url: `/rooms/${room_id}/`,
+        type: "GET",
+        success: function(response) {
+
+            $("#room-title").text(response.name);
+
+            let html = "";
+            response.devices.forEach(device => {
+                html += `
+                    <div class="col-md-12 col-xl-4">
+                        <div class="card">
+                            <div class="list-group list-group-flush">
+                                <a href="#" class="list-group-item list-group-item-action">
+                                    <div class="d-flex">
+                                    <div class="flex-shrink-0">
+                                        <div class="avtar avtar-s rounded-circle bg-light-dark">
+                                            <i class="ti ti-bulb f-18"></i>
+                                            </div>
+                                        </div>
+                                        <div class="flex-grow-1 ms-3">
+                                            <h6 class="mb-1">${device.name} ${device.device_type}</h6>
+                                            <p class="mb-0 text-muted"> ${device.state ? "ON" : "OFF"}</P>
+                                        </div>
+                                        <div class="flex-shrink-0 text-end">
+                                        <div class="custom-switch-container">
+                                                <div id="customSwitch1" class="custom-switch {% if bulb.status %}on{% endif %}">
+                                                <span class="custom-switch-text-off">OFF</span>
+                                                <span class="custom-switch-text-on">ON</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            $("#device-list").html(html || "<p>No devices in this room.</p>");
+        },
+        error: function() {
+            alert("Room not found!");
+        }
+    });
+}

@@ -1,7 +1,7 @@
 from django.urls import path
 from . import views
 
-from .views import room, create_room, list_rooms, create_device, list_devices, toggle_device
+from .views import room, create_room, list_rooms, room_detail, create_device, list_devices, toggle_device
 
 urlpatterns = [
     path('', views.login_view, name='login'),
@@ -17,6 +17,7 @@ urlpatterns = [
     path('rooms', room, name='room'),
     path('rooms/create/', create_room, name="create-room"),
     path('rooms/list/', list_rooms, name="list-rooms"),
+    path('rooms/<int:room_id>/', room_detail, name='room-detail'),
     
     # devices
     path('devices/<int:room_id>/create/', create_device, name='create-device'),

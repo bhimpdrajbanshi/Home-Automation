@@ -329,12 +329,13 @@
                     <div class="avtar avtar-s rounded-circle text-success bg-light-success">
                        <a href="/"> <i class="ti ti-chevron-left f-45"></i></a>
                     </div>
-                    <div>
-                        <h4 class="padding-top: 20px;">Living Room</h4>
+                    <div style="margin-top:20px;">
+                        <span class="badge bg-light-primary border border-primary custom-badge" >
+                            <h5 id="room-title">Living Room</h5>
+                        </span>
                     </div>
-                    <div class="avtar avtar-s rounded-circle text-primary bg-light-primary" id="openRoomModal">
-                        <i class="ti ti-circle-plus f-45"></i>
-                    </div>
+                    <div></div>
+                    {% include "modal/device_create_modal.html" %}
                 </div>
             </div>
 
@@ -355,6 +356,34 @@
               </div>
             </div>
           </div>
+
+          <div class="card p-3">
+            <div class="row text-center">
+              <div class="room-list p-3">
+                <div class="d-flex justify-content-between">
+                    <div>
+                      <span class="badge bg-light-primary border border-primary custom-badge">
+                        <h5>Device</h5>
+                      </span>
+                    </div>
+                    <div></div>
+                  </div>
+              </div>
+            </div>
+            <div id="device-list"></div>
+            <div class="room-list p-3">
+                <div class="d-flex justify-content-between">
+                    <div></div>
+                    <div>
+                      <span class="badge bg-light-primary border border-primary custom-badge" id="openDeviceModal">
+                        <h5>  <i class="ti ti-circle-plus">Add Device</i></h5> 
+                      </span>
+                    </div>
+                  </div>
+              </div>
+          </div>
+
+         
           
 
           <div class="row align-items-center">
@@ -554,5 +583,52 @@
 
     });
   </script>
+
+    <script src="{% static 'room/room.js' %}"></script>
+    
+    <script>
+        $(document).ready(function(){
+            const urlParams = new URLSearchParams(window.location.search);
+            const room_id = urlParams.get("room_id");
+            findByIdRoom(room_id);
+
+
+
+            // Open modal when clicking the "plus" avatar div
+            $("#openDeviceModal").click(function() {
+                $("#deviceModal").modal("show");
+            });
+
+            // Submit device form
+            $("#deviceForm").submit(function(e) {
+                e.preventDefault();
+                
+                const urlParams = new URLSearchParams(window.location.search);
+                const room_id = urlParams.get("room_id");
+                const data = {
+                    name: $("#device_name").val(),
+                    device_id: $("#device_id").val(),
+                    device_type: $("#device_type").val()
+                };
+
+                $.ajax({
+                    url: `/devices/${room_id}/create/`,
+                    type: "POST",
+                    headers: { "X-CSRFToken": getCSRFToken() },
+                    data: JSON.stringify(data),
+                    contentType: "application/json",
+                    success: function(response) {
+                        alert("Device added successfully!");
+                        $("#deviceModal").modal("hide");
+                        loadRoom(room_id); // reload device list
+                    },
+                    error: function(xhr) {
+                        alert("Failed to add device: " + (xhr.responseJSON.error || "Unknown error"));
+                    }
+                });
+            });
+        });
+
+    </script>
 </body>
 <!-- [Body] end -->
