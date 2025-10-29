@@ -324,67 +324,25 @@
       <!-- [ breadcrumb ] start -->
       <div class="page-header">
         <div class="page-block mt-2">
-          
-          <div class="text-center">
-            <div class="row mb-3">
-              <div class="col-md-3 col-xl-3 col-3">
-                 <div class="avtar avtar-s rounded-circle text-success bg-light-success">
-                    <i class="ti ti-wifi f-45"></i>
-                  </div>
-                  <div class='mt-3'>
-                      <h6 class="mb-1">WIFI</h6>
-                      <p class="mb-0 text-muted"> OFF </p>
-                  </div>
-              </div>
-              <div class="col-md-3 col-xl-3 col-3">
-                <div class="avtar avtar-s rounded-circle text-warning bg-light-warning">
-                  <i class="ti ti-bulb f-45"></i>
+            <div class="room-list p-3">
+                <div class="d-flex justify-content-between">
+                    <div class="avtar avtar-s rounded-circle text-success bg-light-success">
+                       <a href="/"> <i class="ti ti-chevron-left f-45"></i></a>
+                    </div>
+                    <div>
+                        <h4 class="padding-top: 20px;">Living Room</h4>
+                    </div>
+                    <div class="avtar avtar-s rounded-circle text-primary bg-light-primary" id="openRoomModal">
+                        <i class="ti ti-circle-plus f-45"></i>
+                    </div>
                 </div>
-                <div class='mt-3'>
-                    <h6 class="mb-1">Bulb</h6>
-                    <p class="mb-0 text-muted">3 ON </p>
-                </div>
-              </div>
-              <div class="col-md-3 col-xl-3 col-3">
-                <div class="avtar avtar-s rounded-circle text-success bg-light-success">
-                  <i class="ti ti-device-cctv f-45"></i>
-                </div>
-                <div class='mt-3'>
-                      <h6 class="mb-1">CCTV</h6>
-                      <p class="mb-0 text-muted"> OFF </p>
-                  </div>
-              </div>
-
-               <div class="col-md-3 col-xl-3 col-3">
-                <div class="avtar avtar-s rounded-circle text-warning bg-light-warning">
-                  <i class="ti ti-aperture f-45"></i>
-                </div>
-                <div class='mt-3'>
-                    <h6 class="mb-1">Fan</h6>
-                    <p class="mb-0 text-muted">3 ON </p>
-                </div>
-              </div>
             </div>
-          </div>
 
           {% comment %} Rooms Secction {% endcomment %}
-          <div class="row" id="room_container">
-            <!-- Rooms will be injected here -->
-          </div>
-          <div class="card p-3">
+           <div class="p-3">
             <div class="row text-center">
-              <div class="room-list p-3">
-                <div class="d-flex justify-content-between">
-                    <div>
-                      <span class="badge bg-light-primary border border-primary custom-badge">
-                        <h5>Rooms</h5>
-                      </span>
-                    </div>
-                    <div>See all</div>
-                  </div>
-              </div>
-              <div class="col-md-6 col-xl-4">
-                  <div class="card" style="
+              <div class="col-md-6 col-xl-12">
+                  <div style="
                          height: 300px;
                           background: url(https://img.freepik.com/free-photo/luxury-hotel-bedroom-illuminated-by-modern-lamps-generated-by-ai_188544-27990.jpg?semt=ais_hybrid&w=740&q=80) no-repeat center/cover;
                           position: relative;
@@ -392,68 +350,15 @@
                           text-align: center;
                           border-radius: 13px;
                         ">
-                    <div class="card-body">
-                      <div class="room-text">
-                        <div class="d-flex justify-content-around">
-                          <div>
-                            Living Room
-                            <p class="mb-0 text-muted text-sm" style="color:white !important;">4 Device Active</p>
-                          </div>
-                          <div>
-                            <div class="avtar avtar-s rounded-circle text-success bg-light-success">
-                              <i class="ti ti-arrow-up-right f-45"></i>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-              
-              </div>
-              <div class="col-md-6 col-xl-4">
-                  <div class="card" style="
-                         height: 300px;
-                          background: url(https://images.ctfassets.net/5kq8dse7hipf/01eTNFXZSn83U1MQiZRDbT/cc09330a862ea67996b71209249357d1/rustic-kitchen-ideas.jpg?w=1024&fm=webp) no-repeat center/cover;
-                          position: relative;
-                          color: white;
-                          text-align: center;
-                          border-radius: 13px;
-                        ">
-                    <div class="card-body">
-                      <div class="room-text">
-                        <div class="d-flex justify-content-around">
-                          <div>
-                            Kitchen
-                            <p class="mb-0 text-muted text-sm" style="color:white !important;">4 Device Active</p>
-                          </div>
-                          <div>
-                            <div class="avtar avtar-s rounded-circle text-success bg-light-success">
-                              <i class="ti ti-arrow-up-right f-45"></i>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
                   </div>
               
               </div>
             </div>
-            <div class="avtar avtar-s rounded-circle text-primary bg-light-primary" id="openRoomModal">
-              <i class="ti ti-circle-plus f-45"></i>
-            </div>
-
-            {% include "modal/room_create_modal.html" %}
-
           </div>
-
+          
 
           <div class="row align-items-center">
             <div class="col-md-12 col-xl-4">
-                <h5 class="mb-3">
-                  <span class="badge bg-light-primary border border-primary custom-badge">
-                    <h5>Living Room</h5>
-                  </span>
-                </h5>
                 <div class="card">
                     <div class="list-group list-group-flush">
                         <a href="#" class="list-group-item list-group-item-action">
@@ -482,13 +387,7 @@
                 </div>
             </div>
 
-               <div class="col-md-12 col-xl-4">
-                <h5 class="mb-3">
-                    <div class="avtar avtar-s rounded-circle text-success bg-light-success">
-                        <i class="ti ti-box-model f-18"></i>
-                    </div>
-                    Kitchen
-                </h5>
+            <div class="col-md-12 col-xl-4">
                 <div class="card">
                     <div class="list-group list-group-flush">
                         <a href="#" class="list-group-item list-group-item-action">
@@ -518,7 +417,6 @@
             </div>
 
             <div class="col-md-12 col-xl-4">
-                <h5 class="mb-3">Transaction History</h5>
                 <div class="card">
                     <div class="list-group list-group-flush">
                         <a href="#" class="list-group-item list-group-item-action">
@@ -600,9 +498,6 @@
   
   <script>layout_change('light');</script>
   
-  
-  
-  
   <script>change_box_container('false');</script>
   
   
@@ -659,62 +554,5 @@
 
     });
   </script>
-
-
-  <script src="{% static 'room/room.js' %}"></script>
-  <script>
-    // Call loadRooms when page loads
-    $(document).ready(function(){
-        loadRooms();
-    });
-
-
-
-    function getRoomCardHTML(room) {
-      // You can customize background images dynamically later
-      const bgImage = room.image_url || "https://img.freepik.com/free-photo/luxury-hotel-bedroom-illuminated-by-modern-lamps-generated-by-ai_188544-27990.jpg?semt=ais_hybrid&w=740&q=80";
-      const deviceCount = room.device_count || 0;
-
-      return `
-      <div class="col-md-6 col-xl-4 mb-3">
-        <div class="card" style="
-            height: 300px;
-            background: url(${bgImage}) no-repeat center/cover;
-            position: relative;
-            color: white;
-            text-align: center;
-            border-radius: 13px;
-        ">
-          <div class="card-body">
-            <div class="room-text">
-              <div class="d-flex justify-content-around">
-                <div>
-                  ${room.name}
-                  <p class="mb-0 text-muted text-sm" style="color:white !important;">
-                    ${deviceCount} Device Active
-                  </p>
-                </div>
-                <div>
-                  <div class="avtar avtar-s rounded-circle text-success bg-light-success">
-                    <a href="{% url 'room' %}"> <i class="ti ti-arrow-up-right f-45"></i></a>  
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      `;
-    }
-  </script>
-
-
-
-
-    
-
-
-    
-
 </body>
 <!-- [Body] end -->
