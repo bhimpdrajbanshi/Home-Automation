@@ -1,4 +1,3 @@
-
     function apiPost(url, data, onSuccess, onError) {
         $.ajax({
             url: url,
@@ -9,11 +8,39 @@
                 "X-CSRFToken": getCSRFToken()
             },
             success: onSuccess,
-            error: onError || function() {
-                alert("Something went wrong!");
+            error: function(xhr) {
+                let msg = "Something went wrong!";
+
+                try {
+                    let resp = JSON.parse(xhr.responseText);
+
+                    // Case 1: {"error":{"device_id":["msg"]}}
+                    if (resp.error) {
+                        let field = Object.keys(resp.error)[0];
+                        msg = resp.error[field][0];
+                    }
+                    // Case 2: {"device_id":["msg"]}  <-- DRF default
+                    else {
+                        let field = Object.keys(resp)[0];
+                        msg = resp[field][0];
+                    }
+
+                } catch (e) {
+                    console.log("Error parsing response:", e);
+                }
+
+                Swal.fire({
+                    icon: "error",
+                    title: "Error",
+                    text: msg,
+                });
+
+                if (onError) onError(xhr);
             }
         });
     }
+
+
 
     // Get CSRF Token
     function getCSRFToken() {
@@ -22,16 +49,34 @@
             ?.split("=")[1];
     }
  
-      $("#add_room_btn").click(function(){
-          const roomName = $("#room_name").val().trim();
-          if (!roomName) return alert("Enter room name");
+    $("#add_room_btn").click(function () {
+        const roomName = $("#room_name").val().trim();
+        if (!roomName) {
+            Swal.fire({
+                icon: "warning",
+                title: "Room name required",
+                text: "Please enter a room name.",
+            });
+            return;
+        }
 
-          apiPost("/rooms/create/", { name: roomName }, function(res){
-              $("#room_name").val("");
-              $("#roomModal").modal("hide");
-              loadRooms();  // Reload room list after adding
-          });
-      });
+        apiPost("/rooms/create/", { name: roomName }, 
+            function (res) {
+
+                $("#room_name").val("");
+                $("#roomModal").modal("hide");
+                loadRooms();  // reload room list
+
+                Swal.fire({
+                    icon: "success",
+                    title: "Room Created 🎉",
+                    text: `${res.name} has been added successfully!`,
+                    timer: 1500,
+                    showConfirmButton: false
+                });
+        });
+    });
+
 
       $("#openRoomModal").click(function() {
           $("#roomModal").modal("show");
@@ -77,7 +122,7 @@ function findByIdRoom(room_id) {
                                 <a href="#" class="list-group-item list-group-item-action">
                                     <div class="d-flex">
                                     <div class="flex-shrink-0">
-                                        <div class="avtar avtar-s rounded-circle bg-light-dark">
+                                        <div class="avtar avtar-s rounded-circle bg-light-dark" id="avatar_${device.id}">
                                             <i class="ti ti-bulb f-18"></i>
                                             </div>
                                         </div>
@@ -87,7 +132,8 @@ function findByIdRoom(room_id) {
                                         </div>
                                         <div class="flex-shrink-0 text-end">
                                         <div class="custom-switch-container">
-                                                <div id="customSwitch1" class="custom-switch {% if bulb.status %}on{% endif %}">
+                                                <div id="switch_${device.id}" class="custom-switch ${device.state ? "on" : "off"}" 
+                                                data-device-id="${device.id}">
                                                 <span class="custom-switch-text-off">OFF</span>
                                                 <span class="custom-switch-text-on">ON</span>
                                                 </div>
@@ -109,3 +155,59 @@ function findByIdRoom(room_id) {
         }
     });
 }
+
+
+
+function deleteRoom(roomId) {
+      Swal.fire({
+      title: "Are you sure?",
+      text: "This action will permanently delete the room and its devices.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Yes, delete it!"
+    }).then((result) => {
+      if (result.isConfirmed) {
+
+        $.ajax({
+          url: `/rooms/${roomId}/delete/`,
+          type: "DELETE",
+          headers: { "X-CSRFToken": getCookie("csrftoken") },
+          success: function(response) {
+            Swal.fire(
+              "Deleted!",
+              "Room has been deleted.",
+              "success"
+            );
+            loadRooms(); // Refresh room list after delete
+          },
+          error: function() {
+            Swal.fire(
+              "Error!",
+              "Something went wrong while deleting.",
+              "error"
+            );
+          }
+        });
+
+      }
+    });
+  }
+
+
+    // CSRF helper (if not already defined)
+    function getCookie(name) {
+      let cookieValue = null;
+      if (document.cookie && document.cookie !== "") {
+        const cookies = document.cookie.split(";");
+        for (let cookie of cookies) {
+          cookie = cookie.trim();
+          if (cookie.startsWith(name + "=")) {
+            cookieValue = cookie.substring(name.length + 1);
+            break;
+          }
+        }
+      }
+      return cookieValue;
+    }

@@ -1,44 +1,44 @@
-function apiPost(url, data, onSuccess, onError) {
-    $.ajax({
-        url: url,
-        type: "POST",
-        data: JSON.stringify(data),
-        contentType: "application/json",
-        headers: {
-            "X-CSRFToken": getCSRFToken()
-        },
-        success: onSuccess,
-        error: function(xhr) {
-            let msg = "Something went wrong!";
+    function apiPost(url, data, onSuccess, onError) {
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: JSON.stringify(data),
+            contentType: "application/json",
+            headers: {
+                "X-CSRFToken": getCSRFToken()
+            },
+            success: onSuccess,
+            error: function(xhr) {
+                let msg = "Something went wrong!";
 
-            try {
-                let resp = JSON.parse(xhr.responseText);
+                try {
+                    let resp = JSON.parse(xhr.responseText);
 
-                // Case 1: {"error":{"device_id":["msg"]}}
-                if (resp.error) {
-                    let field = Object.keys(resp.error)[0];
-                    msg = resp.error[field][0];
+                    // Case 1: {"error":{"device_id":["msg"]}}
+                    if (resp.error) {
+                        let field = Object.keys(resp.error)[0];
+                        msg = resp.error[field][0];
+                    }
+                    // Case 2: {"device_id":["msg"]}  <-- DRF default
+                    else {
+                        let field = Object.keys(resp)[0];
+                        msg = resp[field][0];
+                    }
+
+                } catch (e) {
+                    console.log("Error parsing response:", e);
                 }
-                // Case 2: {"device_id":["msg"]}  <-- DRF default
-                else {
-                    let field = Object.keys(resp)[0];
-                    msg = resp[field][0];
-                }
 
-            } catch (e) {
-                console.log("Error parsing response:", e);
+                Swal.fire({
+                    icon: "error",
+                    title: "Error",
+                    text: msg,
+                });
+
+                if (onError) onError(xhr);
             }
-
-            Swal.fire({
-                icon: "error",
-                title: "Error",
-                text: msg,
-            });
-
-            if (onError) onError(xhr);
-        }
-    });
-}
+        });
+    }
 
 
 
@@ -122,7 +122,7 @@ function findByIdRoom(room_id) {
                                 <a href="#" class="list-group-item list-group-item-action">
                                     <div class="d-flex">
                                     <div class="flex-shrink-0">
-                                        <div class="avtar avtar-s rounded-circle bg-light-dark">
+                                        <div class="avtar avtar-s rounded-circle bg-light-dark" id="avatar_${device.id}">
                                             <i class="ti ti-bulb f-18"></i>
                                             </div>
                                         </div>
@@ -132,7 +132,8 @@ function findByIdRoom(room_id) {
                                         </div>
                                         <div class="flex-shrink-0 text-end">
                                         <div class="custom-switch-container">
-                                                <div id="customSwitch1" class="custom-switch {% if bulb.status %}on{% endif %}">
+                                                <div id="switch_${device.id}" class="custom-switch ${device.state ? "on" : "off"}" 
+                                                data-device-id="${device.id}">
                                                 <span class="custom-switch-text-off">OFF</span>
                                                 <span class="custom-switch-text-on">ON</span>
                                                 </div>

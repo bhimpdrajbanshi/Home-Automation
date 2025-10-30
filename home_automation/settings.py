@@ -25,8 +25,8 @@ SECRET_KEY = 'django-insecure-jyqn!4bqgn%y+(v&h5-zadw#0nrh#f)h5aw__r$=72!(4)y-)7
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["home-automation-slcf.onrender.com"]
-# ALLOWED_HOSTS = ["*"]
+# ALLOWED_HOSTS = ["home-automation-slcf.onrender.com"]
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition

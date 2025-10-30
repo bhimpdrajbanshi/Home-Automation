@@ -50,7 +50,7 @@
   </div>
 </div>
 <div class="card p-3">
-  <div id="device-list"></div>
+  <div class="row  text-center" id="device-list"></div>
   <div class="room-list p-3">
       <div class="d-flex justify-content-between">
           <div></div>
@@ -68,12 +68,51 @@
 {% block extra_js %}
   <script src="{% static 'room/room.js' %}"></script>
     <script>
+       $(document).on("click", ".custom-switch", function () {
+            let switchDiv = $(this);
+            let deviceId = switchDiv.data("device-id");
+
+            $.ajax({
+                url: `/devices/${deviceId}/toggle/`,
+                type: "POST",
+                headers: { "X-CSRFToken": getCSRFToken() },
+                success: function (res) {
+                    const newState = res.device.state; // true = ON, false = OFF
+
+                    // Toggle switch class
+                    switchDiv.toggleClass("on off");
+
+                    // Update text label
+                    switchDiv.closest(".list-group-item")
+                            .find("p.text-muted")
+                            .text(newState ? "ON" : "OFF");
+
+                    // Update avatar color
+                    let avatar = $(`#avatar_${deviceId}`);
+                    if (newState) {
+                        avatar.removeClass("text-dark bg-light-dark")
+                              .addClass("text-warning bg-light-warning");
+                    } else {
+                        avatar.removeClass("text-warning bg-light-warning")
+                              .addClass("text-dark bg-light-dark");
+                    }
+                },
+                error: function () {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Failed!",
+                        text: "Could not toggle device state."
+                    });
+                }
+            });
+        });
+
+
+
         $(document).ready(function(){
             const urlParams = new URLSearchParams(window.location.search);
             const room_id = urlParams.get("room_id");
             findByIdRoom(room_id);
-
-
 
             // Open modal when clicking the "plus" avatar div
             $("#openDeviceModal").click(function() {
