@@ -43,6 +43,18 @@ def logout_view(request):
     logout(request)
     return redirect('login') 
 
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.generics import ListAPIView
+from users.serializers import UserSerializer
+from rest_framework.filters import SearchFilter
+class UserListAPI(ListAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = [IsAuthenticated]
+    filter_backends = [SearchFilter]
+    search_fields = ['username', 'first_name', 'last_name']
+
+
 
 from django.http import StreamingHttpResponse
 from django.shortcuts import render

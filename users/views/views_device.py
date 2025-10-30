@@ -18,7 +18,7 @@ def create_device(request, room_id):
     if serializer.is_valid():
         serializer.save(room=room)
         return Response({"message": "Device created", "device": serializer.data}, status=status.HTTP_201_CREATED)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    return Response( {"error": serializer.errors }, status=status.HTTP_400_BAD_REQUEST)
 
 # List devices in a room
 @api_view(['GET'])

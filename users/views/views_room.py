@@ -36,3 +36,14 @@ def room_detail(request, room_id):
 
     serializer = RoomDetailSerializer(room)
     return Response(serializer.data)
+
+@api_view(['DELETE'])
+@permission_classes([IsAuthenticated])
+def delete_room(request, room_id):
+    try:
+        room = Room.objects.get(id=room_id, user=request.user)
+    except Room.DoesNotExist:
+        return Response({"error": "Room not found"}, status=status.HTTP_404_NOT_FOUND)
+
+    room.delete()  # Automatically deletes linked devices
+    return Response({"message": "Room deleted successfully"}, status=status.HTTP_200_OK)

@@ -78,7 +78,7 @@
 
 /* custom-badge */
 .custom-badge{
-  padding: 10px 0px 10px 13px;
+  padding: 10px 10px 10px 10px;
   border-radius: 15px;
 }
 
@@ -128,4 +128,8 @@
 .login-logo{
   height: 60px;
   margin: 20px;
+}
+
+.swal2-container.swal2-center.swal2-backdrop-show {
+    z-index: 9999;
 }
